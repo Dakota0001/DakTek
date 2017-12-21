@@ -1,0 +1,6 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "dak/Heatsink"
+	"$surfaceprop" "metal"
+	"$model" 1
+}
