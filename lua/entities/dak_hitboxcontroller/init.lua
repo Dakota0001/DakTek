@@ -189,7 +189,10 @@ function ENT:Think()
 				if self.CurMass>=0 then
 					if not(self.HitBox[i].DakHealth==nil) then
 						if self.HitBox[i].DakHealth <= self.CurrentHealth then
-							self.DamageCycle = self.DamageCycle+(self.CurrentHealth-self.HitBox[i].DakHealth)
+							if math.abs(self.CurrentHealth-self.HitBox[i].DakHealth) > 0 then
+								self.DamageCycle = self.DamageCycle+(self.CurrentHealth-self.HitBox[i].DakHealth)
+							end
+							
 							if not(self.DakLastDamagePos == nil) then
 								self.DakLastDamagePos = self.HitBox[i].DakLastDamagePos	
 							end
@@ -216,6 +219,9 @@ function ENT:Think()
 							self.DamageCycle = 0
 						end
 						self.CurrentHealth = self.CurrentHealth-self.DamageCycle
+						if self.DakHealth <= 0 then
+							self.DakEngine.DakHealth = self.DakEngine.DakHealth-(self.DamageCycle*0.5)
+						end
 					end
 				end
 			end
@@ -247,7 +253,6 @@ function ENT:Think()
 			end
 			if self.Broke==0 then
 				self.DakHealth = self.CurrentHealth
-
 				WireLib.TriggerOutput(self, "HealthPercent", (self.DakHealth/self.DakMaxHealth)*100)
 				if not(self.DakHealth == nil) then
 					if self.DakHealth <= 0 then
@@ -255,6 +260,7 @@ function ENT:Think()
 							for i = 1, table.Count(self.HitBox) do
 								if self.HitBox[i].DakHealth <= 0 then
 									self.HitBox[i].DakHealth = 0
+									self.CurrentHealth = 0
 									self.HitBox[i].DakName = "Damaged Component"
 									self.HitBox[i]:SetColor(Color(100,100,100,self.HitBox[i]:GetColor().a))
 									if self.LegBroke == 0 then
@@ -275,7 +281,6 @@ function ENT:Think()
 									end		
 								end
 							end
-							self.DakHealth = 0
 						else
 							for i = 1, table.Count(self.HitBox) do
 								if self.HitBox[i].DakHealth <= 0 then
@@ -290,8 +295,6 @@ function ENT:Think()
 								end
 								self.HitBox[i]:Remove()
 							end
-
-
 							self.salvage = ents.Create( "dak_salvage" )
 							self.salvage.DakModel = self:GetModel()
 							self.salvage:SetPos( self:GetPos())

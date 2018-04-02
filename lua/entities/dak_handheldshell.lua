@@ -99,6 +99,10 @@ function ENT:Think()
 				DakTekSetupNewEnt(Hit.Entity)
 			end
 			if Hit.Entity.DakName == "Damaged Component" then
+				if self.HitScrap==nil then
+					Hit.Entity.DakHealth = Hit.Entity.DakHealth-self.DakDamage
+				end
+				self.HitScrap = 1
 				self:Damage(Hit.Entity)
 			end
 			if Hit.Entity.DakHealth>0 then
@@ -288,6 +292,10 @@ function ENT:Damage(oldhit)
 				DakTekSetupNewEnt(Hit.Entity)
 			end
 			if Hit.Entity.DakName == "Damaged Component" then
+				if self.HitScrap==nil then
+					Hit.Entity.DakHealth = Hit.Entity.DakHealth-self.DakDamage
+				end
+				self.HitScrap = 1
 				self:Damage(Hit.Entity)
 			end
 			if Hit.Entity.DakHealth>0 then

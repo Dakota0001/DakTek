@@ -299,10 +299,10 @@ function ENT:Think()
                         if self.YawDiff< -180 then
                             self.YawDiff = self.YawDiff+360
                         end
-                    
                         local RotVec = Vector(AngleDiff.r*5,AngleDiff.p*5,self.YawDiff*5)
-                        self.phy:AddAngleVelocity(RotVec)
-
+                        
+                        self.phy:AddAngleVelocity(self.phy:WorldToLocal( self:LocalToWorld( RotVec ) ))
+                        
                         local LeftRay = {}
                         LeftRay.start = self.LeftFoot:GetPos()
                         LeftRay.endpos = self.LeftFoot:GetPos() + (Vector(0,0,-1.25) * ((math.abs(math.max(self.LeftFoot:OBBMins().x,self.LeftFoot:OBBMins().y,self.LeftFoot:OBBMins().z)) + math.abs(math.min(self.LeftFoot:OBBMaxs().x,self.LeftFoot:OBBMaxs().y,self.LeftFoot:OBBMaxs().z)))/2) )
@@ -414,7 +414,7 @@ function ENT:Think()
                         end
                     
                         local RotVec = Vector(AngleDiff.r*5,AngleDiff.p*5,self.YawDiff*5)
-                        self.phy:AddAngleVelocity(RotVec)
+                        self.phy:AddAngleVelocity(self.phy:WorldToLocal( self:LocalToWorld( RotVec ) ))
                         else
                             if self.StrideCenter == nil then
                                 self.StrideCenter = 0
@@ -645,7 +645,7 @@ function ENT:Think()
                     
                         local RotVec = Vector(AngleDiff.r*100,AngleDiff.p*100,self.YawDiff*25)
                         if self.LAMToggle==0 then
-                           self.phy:AddAngleVelocity(RotVec)
+                           self.phy:AddAngleVelocity(self.phy:WorldToLocal( self:LocalToWorld( RotVec ) ))
                         end
 
                         --Step Sound
@@ -806,8 +806,8 @@ function ENT:PostEntityPaste( Player, Ent, CreatedEntities )
 
         self.HipHeight = Vector(0,0,self.base:GetPos().z):Distance((Vector(0,0,self.LeftFoot:GetPos().z)+Vector(0,0,self.RightFoot:GetPos().z))/2)
 
-        self.LeftBasePos = self.base:WorldToLocal( self.LeftFoot:GetPos() )
-        self.RightBasePos = self.base:WorldToLocal( self.RightFoot:GetPos() )
+        self.LeftBasePos = self:WorldToLocal(self.LeftFoot:GetPos()) - self:WorldToLocal(self.base:GetPos())
+        self.RightBasePos = self:WorldToLocal(self.RightFoot:GetPos()) - self:WorldToLocal(self.base:GetPos())
 
         self.DakOwner = Player
         if Ent.EntityMods.DakTek.DakColor == nil then

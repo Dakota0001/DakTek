@@ -6353,7 +6353,7 @@ function TOOL:LeftClick( trace )
 			self.spawnedent:Spawn()
 			self.spawnedent:GetPhysicsObject():EnableMotion( false )
 			self.spawnedent:SetPos(trace.HitPos+Vector(0,0,-self.spawnedent:OBBMins().z))
-			if not(self.spawnedent:GetClass() == "dak_engine") and not(self.spawnedent:GetClass() == "dak_module") and not(self.spawnedent:GetClass() == "dak_ammo") and not(self.spawnedent:GetClass() == "dak_heatsink") and not(self.spawnedent:GetClass() == "dak_hitboxcontroller") and not(self.spawnedent:GetClass() == "dak_masc") and not(self.spawnedent:GetClass() == "dak_supercharger") and not(self.spawnedent:GetClass() == "dak_motor") and not(self.spawnedent:GetClass() == "dak_vtol") and not(self.spawnedent:GetClass() == "dak_fighter") and not(self.spawnedent:GetClass() == "dak_hoverdrive") and not(self.spawnedent:GetClass() == "dak_gyro") and not(self.spawnedent:GetClass() == "dak_quadgyro") and not(self.spawnedent:GetClass() == "dak_lams") and not(self.spawnedent:GetClass() == "dak_jumpjet") then
+			if not(self.spawnedent:GetClass() == "dak_engine") and not(self.spawnedent:GetClass() == "dak_module") and not(self.spawnedent:GetClass() == "dak_ammo") and not(self.spawnedent:GetClass() == "dak_heatsink") and not(self.spawnedent:GetClass() == "dak_hitboxcontroller") and not(self.spawnedent:GetClass() == "dak_torsocontrol") and not(self.spawnedent:GetClass() == "dak_masc") and not(self.spawnedent:GetClass() == "dak_supercharger") and not(self.spawnedent:GetClass() == "dak_motor") and not(self.spawnedent:GetClass() == "dak_vtol") and not(self.spawnedent:GetClass() == "dak_fighter") and not(self.spawnedent:GetClass() == "dak_hoverdrive") and not(self.spawnedent:GetClass() == "dak_gyro") and not(self.spawnedent:GetClass() == "dak_quadgyro") and not(self.spawnedent:GetClass() == "dak_lams") and not(self.spawnedent:GetClass() == "dak_jumpjet") then
 				if math.Round( self:GetClientInfo("PTSpawnMod"), 0 ) == 1 then
 					self.spawnedent:SetSubMaterial( 0, "dak/dakplainmetallight" )
 				end
@@ -6416,7 +6416,7 @@ function TOOL:LeftClick( trace )
 			if (self:GetClientInfo("SpawnEnt") == "dak_gun") or (self:GetClientInfo("SpawnEnt") == "dak_laser") or (self:GetClientInfo("SpawnEnt") == "dak_xpulselaser") or (self:GetClientInfo("SpawnEnt") == "dak_launcher") or (self:GetClientInfo("SpawnEnt") == "dak_lams") then
 			self.spawnedent:Spawn()
 			self.spawnedent:GetPhysicsObject():EnableMotion( false )
-			if not(self.spawnedent:GetClass() == "dak_engine") and not(self.spawnedent:GetClass() == "dak_module") and not(self.spawnedent:GetClass() == "dak_ammo") and not(self.spawnedent:GetClass() == "dak_heatsink") and not(self.spawnedent:GetClass() == "dak_hitboxcontroller") and not(self.spawnedent:GetClass() == "dak_masc") and not(self.spawnedent:GetClass() == "dak_supercharger") and not(self.spawnedent:GetClass() == "dak_motor") and not(self.spawnedent:GetClass() == "dak_vtol") and not(self.spawnedent:GetClass() == "dak_fighter") and not(self.spawnedent:GetClass() == "dak_hoverdrive") and not(self.spawnedent:GetClass() == "dak_gyro") and not(self.spawnedent:GetClass() == "dak_quadgyro") and not(self.spawnedent:GetClass() == "dak_lams") and not(self.spawnedent:GetClass() == "dak_jumpjet") then
+			if not(self.spawnedent:GetClass() == "dak_engine") and not(self.spawnedent:GetClass() == "dak_module") and not(self.spawnedent:GetClass() == "dak_ammo") and not(self.spawnedent:GetClass() == "dak_heatsink") and not(self.spawnedent:GetClass() == "dak_hitboxcontroller") and not(self.spawnedent:GetClass() == "dak_torsocontrol") and not(self.spawnedent:GetClass() == "dak_masc") and not(self.spawnedent:GetClass() == "dak_supercharger") and not(self.spawnedent:GetClass() == "dak_motor") and not(self.spawnedent:GetClass() == "dak_vtol") and not(self.spawnedent:GetClass() == "dak_fighter") and not(self.spawnedent:GetClass() == "dak_hoverdrive") and not(self.spawnedent:GetClass() == "dak_gyro") and not(self.spawnedent:GetClass() == "dak_quadgyro") and not(self.spawnedent:GetClass() == "dak_lams") and not(self.spawnedent:GetClass() == "dak_jumpjet") then
 				if math.Round( self:GetClientInfo("PTSpawnMod"), 0 ) == 1 then
 					self.spawnedent:SetSubMaterial( 0, "dak/dakplainmetallight" )
 				end
@@ -6794,6 +6794,7 @@ NodeList["Utilities"] = ctrl:AddNode( "Utilities" )
 	NodeList["LAMS"] = NodeList["Utilities"]:AddNode( "Laser AMS" )
 	NodeList["StealthModule"] = NodeList["Utilities"]:AddNode( "Stealth Module" )
 	NodeList["HitBoxControl"] = NodeList["Utilities"]:AddNode( "HitBox Controller" )
+	NodeList["TorsoControl"] = NodeList["Utilities"]:AddNode( "Torso Controller" )
 
 NodeList["Weapons"] = ctrl:AddNode( "Weapons" )
 	NodeList["Clan"] = NodeList["Weapons"]:AddNode( "Clan" )
@@ -7943,6 +7944,10 @@ NodeList["Ammo"] = ctrl:AddNode( "Ammo" )
 		if (node == NodeList["HitBoxControl"]) then
 		RunConsoleCommand("dakspawner_SpawnEnt", "dak_hitboxcontroller")
 		DLabel:SetText( "Hitbox Controller\n\nHealth: 10\n\nDescription: This entity allows you to select props to place into a health pool with the health pooling tool. Please know the rules and regulations for health pooling before using. Rules can be found in the Dak Health Pooler tool's description. It also outputs the group's health via wire so you can link it with EGPs or other HUD setups." )
+		end
+		if (node == NodeList["TorsoControl"]) then
+		RunConsoleCommand("dakspawner_SpawnEnt", "dak_torsocontrol")
+		DLabel:SetText( "Torso Controller\n\nHealth: 10\n\nDescription: This entity acts as a torso control chip, it uses the power of the gyroscope to twist the mech's torso. Place this chip onto the torso facing forward. Use the C menu to edit its properties." )
 		end
 		if (node == NodeList["LVTOL"]) then
 		RunConsoleCommand("dakspawner_SpawnEnt", "dak_vtol")

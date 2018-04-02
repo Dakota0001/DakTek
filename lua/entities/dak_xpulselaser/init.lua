@@ -49,6 +49,8 @@ function ENT:Initialize()
  	self.Held = false
  	self.Soundtime = CurTime()
  	self.SparkTime = CurTime()
+ 	self.HitScrap = 0
+
 end
 	
 function ENT:Think()
@@ -263,6 +265,10 @@ if self.DakName == "Small X-Pulse Laser" then
 				DakTekSetupNewEnt(Hit.Entity)
 			end
 			if Hit.Entity.DakName == "Damaged Component" then
+				if self.HitScrap==0 then
+					Hit.Entity.DakHealth = Hit.Entity.DakHealth-(self.damage*beamtime/self.DakDuration)
+				end
+				self.HitScrap = 1
 				self:Damage(Hit.Entity)
 			end
 			if Hit.Entity.DakHealth>0 then
@@ -387,6 +393,7 @@ if self.DakName == "Small X-Pulse Laser" then
 	if not IsValid(self.DakEngine) then
 		self:SetNWBool("BeamOn", false)
 	end
+	self.HitScrap = 0
 	if self.Firing then
 		self:NextThink(self.timer + self.DakDuration/10)
 	else
@@ -434,6 +441,10 @@ function ENT:Damage(oldhit)
 				DakTekSetupNewEnt(Hit.Entity)
 			end
 			if Hit.Entity.DakName == "Damaged Component" then
+				if self.HitScrap==0 then
+					Hit.Entity.DakHealth = Hit.Entity.DakHealth-(self.damage*beamtime/self.DakDuration)
+				end
+				self.HitScrap = 1
 				self:Damage(Hit.Entity)
 			end
 			if Hit.Entity.DakHealth>0 then

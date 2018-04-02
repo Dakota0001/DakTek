@@ -46,6 +46,7 @@ function ENT:Initialize()
  	self.Soundtime = CurTime()
  	self.SparkTime = CurTime()
  	self.LastFireTime = CurTime()
+ 	self.HitScrap = 0
 
 end
 	
@@ -506,6 +507,10 @@ function ENT:Think()
 				DakTekSetupNewEnt(Hit.Entity)
 			end
 			if Hit.Entity.DakName == "Damaged Component" then
+				if self.HitScrap==0 then
+					Hit.Entity.DakHealth = Hit.Entity.DakHealth-(self.damage*beamtime/self.DakDuration)
+				end
+				self.HitScrap = 1
 				self:Damage(Hit.Entity)
 			end
 			if Hit.Entity.DakHealth>0 then
@@ -627,6 +632,7 @@ function ENT:Think()
 	if not IsValid(self.DakEngine) then
 		self:SetNWBool("BeamOn", false)
 	end
+	self.HitScrap = 0
 	WireLib.TriggerOutput(self, "Cooldown", math.Clamp((self.LastFireTime+self.DakCooldown)-CurTime(),0,100))
 	WireLib.TriggerOutput(self, "CooldownPercent", 100*(math.Clamp((self.LastFireTime+self.DakCooldown)-CurTime(),0,100)/self.DakCooldown))
 	if self.Firing then
@@ -665,6 +671,10 @@ function ENT:Damage(oldhit)
 				DakTekSetupNewEnt(Hit.Entity)
 			end
 			if Hit.Entity.DakName == "Damaged Component" then
+				if self.HitScrap==0 then
+					Hit.Entity.DakHealth = Hit.Entity.DakHealth-(self.damage*beamtime/self.DakDuration)
+				end
+				self.HitScrap = 1
 				self:Damage(Hit.Entity)
 			end
 			if Hit.Entity.DakHealth>0 then

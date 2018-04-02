@@ -989,7 +989,7 @@ function ENT:ThrowATNade()
 				timer.Simple( 2, function()
 					if IsValid(Nade) then
 
-						DTExplosion(Nade,Nade:GetPos(),100,250,60,25,self)
+						DTExplosionNade(Nade,Nade:GetPos(),100,250,60,25,self)
 
 						local effectdata = EffectData()
 						effectdata:SetOrigin(Nade:GetPos())
@@ -1552,7 +1552,7 @@ function CheckClip(Ent, HitPos)
 	return HitClip
 end
 
-function DTExplosion(Ent,Pos,Damage,Radius,Caliber,Pen,Owner)
+function DTExplosionNade(Ent,Pos,Damage,Radius,Caliber,Pen,Owner)
 	local traces = math.Round(Caliber/2)
 	local Filter = {Ent}
 	for i=1, traces do

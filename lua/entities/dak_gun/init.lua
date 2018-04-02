@@ -2367,7 +2367,7 @@ function ENT:Think()
 		local effectdata = EffectData()
 		effectdata:SetStart(ShellTrace.StartPos)
 		effectdata:SetOrigin(ShellTrace.HitPos)
-		effectdata:SetScale((self.ShellList[i].DakDamage*2))
+		effectdata:SetScale((self.ShellList[i].DakDamage))
 		util.Effect("dakballistictracer", effectdata)
 
 		if ShellTrace.Hit then
@@ -3179,6 +3179,10 @@ function DTekShellHit(Start,End,HitEnt,Shell,Normal)
 				DakTekSetupNewEnt(HitEnt)
 			end
 			if HitEnt.DakName == "Damaged Component" then
+				if Shell.HitScrap==nil then
+					HitEnt.DakHealth = HitEnt.DakHealth-Shell.DakDamage
+				end
+				Shell.HitScrap = 1
 				Shell.Filter[#Shell.Filter+1] = HitEnt
 				DTekShellContinue(Start,Shell,Normal)
 			end
@@ -3190,7 +3194,7 @@ function DTekShellHit(Start,End,HitEnt,Shell,Normal)
 			HitEnt.DakLastDamagePos = End
 			if HitEnt.DakHealth < Shell.DakDamage then
 				if not(HitEnt.SPPOwner==nil) and not(HitEnt==nil) and not(HitEnt.SPPOwner:IsWorld()) then			
-					if HitEnt.SPPOwner:HasGodMode()==false and HitEnt.DakIsTread == nil then	
+					if HitEnt.SPPOwner:HasGodMode()==false and HitEnt.DakIsTread == nil and HitEnt.DakName ~= "Damaged Component" then	
 						if Shell.DakGun.DakIsEnergy then
 							if (HitEnt.DakName == "Reflective Armor")or(HitEnt.DakName == "Heavy Reflective Armor")or(HitEnt.DakName == "Reactive Reflective Armor")or(HitEnt.DakName == "Heavy Reactive Reflective Armor") then
 								local HPPerc = (HitEnt.DakHealth-(Shell.DakDamage*0.5))/HitEnt.DakMaxHealth
@@ -3270,7 +3274,7 @@ function DTekShellHit(Start,End,HitEnt,Shell,Normal)
 				DTekShellContinue(Start,Shell,Normal)
 			else
 				if not(HitEnt.SPPOwner==nil) and not(HitEnt==nil) and not(HitEnt.SPPOwner:IsWorld()) then			
-					if HitEnt.SPPOwner:HasGodMode()==false and HitEnt.DakIsTread == nil then	
+					if HitEnt.SPPOwner:HasGodMode()==false and HitEnt.DakIsTread == nil and HitEnt.DakName ~= "Damaged Component" then	
 						if Shell.DakGun.DakIsEnergy then
 							if (HitEnt.DakName == "Reflective Armor")or(HitEnt.DakName == "Heavy Reflective Armor")or(HitEnt.DakName == "Reactive Reflective Armor")or(HitEnt.DakName == "Heavy Reactive Reflective Armor") then
 								local HPPerc = (HitEnt.DakHealth-(Shell.DakDamage*0.5))/HitEnt.DakMaxHealth
@@ -3464,6 +3468,10 @@ function DTekShellContinue(Start,Shell,Normal)
 				DakTekSetupNewEnt(HitEnt)
 			end
 			if HitEnt.DakName == "Damaged Component" then
+				if Shell.HitScrap==nil then
+					HitEnt.DakHealth = HitEnt.DakHealth-Shell.DakDamage
+				end
+				Shell.HitScrap = 1
 				Shell.Filter[#Shell.Filter+1] = HitEnt
 				DTekShellContinue(Start,Shell,Normal)
 			end
@@ -3475,7 +3483,7 @@ function DTekShellContinue(Start,Shell,Normal)
 			HitEnt.DakLastDamagePos = End
 			if HitEnt.DakHealth < Shell.DakDamage then
 				if not(HitEnt.SPPOwner==nil) and not(HitEnt==nil) and not(HitEnt.SPPOwner:IsWorld()) then			
-					if HitEnt.SPPOwner:HasGodMode()==false and HitEnt.DakIsTread == nil then	
+					if HitEnt.SPPOwner:HasGodMode()==false and HitEnt.DakIsTread == nil and HitEnt.DakName ~= "Damaged Component" then	
 						if Shell.DakGun.DakIsEnergy then
 							if (HitEnt.DakName == "Reflective Armor")or(HitEnt.DakName == "Heavy Reflective Armor")or(HitEnt.DakName == "Reactive Reflective Armor")or(HitEnt.DakName == "Heavy Reactive Reflective Armor") then
 								local HPPerc = (HitEnt.DakHealth-(Shell.DakDamage*0.5))/HitEnt.DakMaxHealth
@@ -3555,7 +3563,7 @@ function DTekShellContinue(Start,Shell,Normal)
 				DTekShellContinue(Start,Shell,Normal)
 			else
 				if not(HitEnt.SPPOwner==nil) and not(HitEnt==nil) and not(HitEnt.SPPOwner:IsWorld()) then			
-					if HitEnt.SPPOwner:HasGodMode()==false and HitEnt.DakIsTread == nil then	
+					if HitEnt.SPPOwner:HasGodMode()==false and HitEnt.DakIsTread == nil and HitEnt.DakName ~= "Damaged Component" then	
 						if Shell.DakGun.DakIsEnergy then
 							if (HitEnt.DakName == "Reflective Armor")or(HitEnt.DakName == "Heavy Reflective Armor")or(HitEnt.DakName == "Reactive Reflective Armor")or(HitEnt.DakName == "Heavy Reactive Reflective Armor") then
 								local HPPerc = (HitEnt.DakHealth-(Shell.DakDamage*0.5))/HitEnt.DakMaxHealth
